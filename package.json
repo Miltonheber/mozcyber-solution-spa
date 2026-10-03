@@ -1,5 +1,5 @@
 {
-  "name": "mozcyber-solution-spa",
+  "name": "vigia-spa",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.20.0",
     "clsx": "^2.1.1",
+    "material-symbols": "^0.47.6",
     "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8",

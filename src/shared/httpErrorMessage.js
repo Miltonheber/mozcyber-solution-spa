@@ -1,7 +1,21 @@
-const RECOGNIZED_TOP_LEVEL_KEYS = new Set(["detail", "message", "errors", "success", "code", "status", "statusCode"]);
+const RECOGNIZED_TOP_LEVEL_KEYS = new Set(["detail", "message", "errors", "details", "success", "code", "status", "statusCode"]);
 
 function isPlainErrorObject(value) {
   return value != null && typeof value === "object" && !Array.isArray(value);
+}
+
+// A API Vigia devolve erros por campo em `details` (formato {code, message, details}); outras APIs usam `errors`.
+function nestedFieldErrors(data) {
+  const candidate = data?.errors ?? data?.details;
+  return isPlainErrorObject(candidate) ? candidate : null;
+}
+
+function throttledMessage(error) {
+  const header = Number(error?.response?.headers?.["retry-after"]);
+  const fromText = Number(/(\d+)\s*second/i.exec(error?.response?.data?.message ?? "")?.[1]);
+  const seconds = [header, fromText].find((n) => Number.isFinite(n) && n > 0);
+  if (!seconds) return "Fez demasiados pedidos em pouco tempo. Aguarde um momento e tente novamente.";
+  return `Fez demasiados pedidos em pouco tempo. Tente novamente dentro de ${seconds} ${seconds === 1 ? "segundo" : "segundos"}.`;
 }
 
 function isFieldErrorValue(value) {
@@ -39,9 +53,7 @@ export function getApiError(error) {
   const data = error?.response?.data ?? {};
   const raw = data.detail ?? data.message;
 
-  const nestedErrors = data.errors && typeof data.errors === "object" && !Array.isArray(data.errors)
-    ? data.errors
-    : null;
+  const nestedErrors = nestedFieldErrors(data);
   const arrayErrors = extractArrayErrors(data);
 
   const flatErrors = nestedErrors ? {} : extractFlatFieldErrors(data);
@@ -59,6 +71,8 @@ export function getApiError(error) {
 
   const errors = nestedErrors ?? (Object.keys(fieldErrors).length > 0 ? fieldErrors : null);
 
+  if (error?.response?.status === 429) message = throttledMessage(error);
+
   return { message, errors };
 }
 
@@ -67,9 +81,7 @@ export function getFriendlyHttpErrorMessage(error, fallback = "Não foi possíve
   const data = error?.response?.data;
   const detail = data?.detail;
   const message = data?.message;
-  const nestedErrors = data?.errors && typeof data.errors === "object" && !Array.isArray(data.errors)
-    ? data.errors
-    : null;
+  const nestedErrors = nestedFieldErrors(data);
   const arrayErrors = extractArrayErrors(data);
   const flatErrors = nestedErrors ? null : extractFlatFieldErrors(data);
   const errors = nestedErrors ?? (flatErrors && Object.keys(flatErrors).length > 0 ? flatErrors : null);

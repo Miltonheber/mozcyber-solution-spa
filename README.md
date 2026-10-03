@@ -1,4 +1,4 @@
-# mozcyber-solution-spa
+# vigia-spa
 
 Frontend em Next.js (App Router) + Tailwind CSS v4 + Zustand + Axios.
 
