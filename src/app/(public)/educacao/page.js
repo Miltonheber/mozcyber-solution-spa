@@ -1,5 +1,6 @@
 import PageIntro from "@/components/layout/PageIntro";
-import { Container } from "@/components/ui";
+import { Container, SectionHeading } from "@/components/ui";
+import PostList from "@/features/education/components/PostList";
 import { TOPICS } from "@/features/education/content";
 import { Icon } from "@/shared/icons";
 
@@ -14,9 +15,23 @@ export default function EducacaoPage() {
       <PageIntro
         eyebrow="Aprender"
         title="Reconheça a burla antes de cair nela"
-        description="Quatro guias curtos, escritos para serem lidos num minuto e partilhados com quem mais precisa."
+        description="Guias e alertas para reconhecer burlas, escritos para serem lidos num minuto e partilhados com quem mais precisa."
       />
-      <Container className="grid gap-12 lg:grid-cols-[14rem_1fr] lg:gap-16">
+      <Container className="pb-16">
+        <SectionHeading as="h2" title="Últimas publicações" />
+        <div className="mt-6">
+          <PostList />
+        </div>
+      </Container>
+
+      <Container className="border-t border-line pt-14">
+        <SectionHeading
+          as="h2"
+          title="Guias rápidos"
+          description="O essencial sobre cada tipo de burla, num minuto de leitura."
+        />
+      </Container>
+      <Container className="grid gap-12 pt-10 lg:grid-cols-[14rem_1fr] lg:gap-16">
         <nav aria-label="Neste guia" className="lg:sticky lg:top-24 lg:self-start">
           <p className="mb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-muted">Neste guia</p>
           <ul className="flex flex-col gap-1 text-[0.9375rem]">

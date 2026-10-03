@@ -6,11 +6,10 @@ const useAuthStore = create(
     (set, get) => ({
       accessToken: null,
       refreshToken: null,
-      user: null,
+      user: null, // resposta de `auth/me` (inclui `claims.permissions` e `claims.profiles`)
 
       setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
-      setAuthSession: ({ accessToken, refreshToken, user }) =>
-        set({ accessToken, refreshToken, user }),
+      setAuthSession: ({ accessToken, refreshToken, user }) => set({ accessToken, refreshToken, user }),
       setUser: (user) => set({ user }),
       logout: () => set({ accessToken: null, refreshToken: null, user: null }),
 

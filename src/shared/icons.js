@@ -46,6 +46,7 @@ export const Help = makeIcon("help", { fill: true });
 export const Info = makeIcon("info", { fill: true });
 export const LightMode = makeIcon("light_mode");
 export const Key = makeIcon("key");
+export const Login = makeIcon("login");
 export const Menu = makeIcon("menu");
 export const MenuBook = makeIcon("menu_book");
 export const Progress = makeIcon("progress_activity");
@@ -56,3 +57,19 @@ export const Shield = makeIcon("shield");
 export const SimCard = makeIcon("sim_card");
 export const Sms = makeIcon("sms");
 export const Warning = makeIcon("warning", { fill: true });
+
+// Painel
+export const Add = makeIcon("add");
+export const Article = makeIcon("article");
+export const ChevronLeft = makeIcon("chevron_left");
+export const ChevronRight = makeIcon("chevron_right");
+export const Delete = makeIcon("delete");
+export const Edit = makeIcon("edit");
+export const Gavel = makeIcon("shield_person");
+export const Home = makeIcon("home");
+export const Inbox = makeIcon("inbox");
+export const Logout = makeIcon("logout");
+export const Person = makeIcon("person");
+export const Description = makeIcon("description");
+export const Visibility = makeIcon("visibility");
+export const Lock = makeIcon("lock");

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Alert, Button, Field, Input, Panel, Select, Textarea } from "@/components/ui";
 import { CheckCircle } from "@/shared/icons";
 import { categoryOptions, channelOptions, formatPhone } from "../constants";
-import useAsyncAction from "../hooks/useAsyncAction";
+import useAsyncAction from "@/hooks/useAsyncAction";
 import { reportNumber } from "../services/reputationService";
 
 const MAX_BEHAVIOR = 2000;

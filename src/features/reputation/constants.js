@@ -86,3 +86,9 @@ export const formatPhone = (value) => {
   const m = /^\+258(\d{2})(\d{3})(\d{4})$/.exec(value ?? "");
   return m ? `+258 ${m[1]} ${m[2]} ${m[3]}` : (value ?? "");
 };
+
+export const REPORT_STATUS = {
+  pending: { label: "Pendente", tone: "warn" },
+  confirmed: { label: "Confirmada", tone: "safe" },
+  rejected: { label: "Rejeitada", tone: "neutral" },
+};

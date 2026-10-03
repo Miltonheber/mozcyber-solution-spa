@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Container } from "@/components/ui";
 import { cx, focusRing } from "@/lib/utils";
-import { Close, Menu } from "@/shared/icons";
+import { Close, Login, Menu } from "@/shared/icons";
 import { NAV } from "./nav";
 import ThemeToggle from "./ThemeToggle";
 import Wordmark from "./Wordmark";
@@ -43,6 +43,17 @@ export default function Header() {
 
         <div className="flex items-center gap-1">
         <ThemeToggle />
+        <Link
+          href="/entrar"
+          title="Entrar"
+          aria-label="Entrar"
+          className={cx(
+            "grid size-10 place-items-center rounded-control text-muted transition-colors hover:bg-brand-soft hover:text-brand",
+            focusRing,
+          )}
+        >
+          <Login size={22} />
+        </Link>
         <button
           type="button"
           className={cx("-mr-2 grid size-11 place-items-center rounded-control md:hidden", focusRing)}

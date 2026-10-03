@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Alert, Button, Field, Input, Textarea } from "@/components/ui";
-import useAsyncAction from "../hooks/useAsyncAction";
+import useAsyncAction from "@/hooks/useAsyncAction";
 import { classifyMessage } from "../services/reputationService";
 import VerdictPanel from "./VerdictPanel";
 

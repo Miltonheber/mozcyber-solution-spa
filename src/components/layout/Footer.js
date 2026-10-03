@@ -27,8 +27,11 @@ export default function Footer() {
         </nav>
       </Container>
       <div className="border-t border-line">
-        <Container className="py-5 text-[0.8125rem] text-muted">
-          © {new Date().getFullYear()} Vigia. Não pedimos nunca PIN, palavras-passe nem códigos.
+        <Container className="flex flex-wrap items-center justify-between gap-3 py-5 text-[0.8125rem] text-muted">
+          <span>© {new Date().getFullYear()} Vigia. Não pedimos nunca PIN, palavras-passe nem códigos.</span>
+          <Link href="/entrar" className="underline-offset-4 hover:text-ink hover:underline">
+            Área reservada
+          </Link>
         </Container>
       </div>
     </footer>

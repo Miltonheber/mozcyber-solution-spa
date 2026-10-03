@@ -6,7 +6,7 @@ import { Alert, Button, Input, Field } from "@/components/ui";
 import { getApiError } from "@/shared/httpErrorMessage";
 import { ArrowForward } from "@/shared/icons";
 import { looksLikePhone } from "../constants";
-import useDebouncedValue from "../hooks/useDebouncedValue";
+import useDebouncedValue from "@/hooks/useDebouncedValue";
 import { getNumberReputation } from "../services/reputationService";
 import ReputationCard from "./ReputationCard";
 
