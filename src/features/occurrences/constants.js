@@ -17,3 +17,9 @@ export const occurrenceStatusOptions = Object.entries(OCCURRENCE_STATUS).map(([v
   value,
   label: m.label,
 }));
+
+export const occurrenceOrderingOptions = [
+  { value: "-lost_at", label: "Perdidas há menos tempo" },
+  { value: "lost_at", label: "Perdidas há mais tempo" },
+  { value: "created_at", label: "Registo mais antigo" },
+];

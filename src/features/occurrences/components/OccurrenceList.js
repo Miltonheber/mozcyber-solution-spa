@@ -10,16 +10,27 @@ import usePagedQuery from "@/hooks/usePagedQuery";
 import { formatDate } from "@/shared/format";
 import { Add } from "@/shared/icons";
 import useAuthStore from "@/store/useAuthStore";
-import { DOCUMENT_TYPES, documentTypeOptions, occurrenceStatusOptions } from "../constants";
+import {
+  DOCUMENT_TYPES,
+  documentTypeOptions,
+  occurrenceOrderingOptions,
+  occurrenceStatusOptions,
+} from "../constants";
 import { listOccurrences } from "../services/occurrenceService";
 import OccurrenceStatusPill from "./OccurrenceStatusPill";
 
 export default function OccurrenceList() {
   const user = useAuthStore((s) => s.user);
-  const f = useListFilters({ status: "", document_type: "" });
+  const f = useListFilters({ status: "", document_type: "", lost_at_from: "", lost_at_to: "", ordering: "" });
   const { data, error, loading, reload } = usePagedQuery(listOccurrences, f.params);
   const canCreate = can(user, "occurrence:create");
-  const filtered = Boolean(f.params.search || f.params.status || f.params.document_type);
+  const filtered = Boolean(
+    f.params.search ||
+      f.params.status ||
+      f.params.document_type ||
+      f.params.lost_at_from ||
+      f.params.lost_at_to,
+  );
 
   const columns = [
     {
@@ -70,6 +81,27 @@ export default function OccurrenceList() {
             value: f.values.document_type,
             onChange: (v) => f.set("document_type", v),
             options: documentTypeOptions,
+          },
+          {
+            name: "lost_at_from",
+            type: "date",
+            label: "Perdido de",
+            value: f.values.lost_at_from,
+            onChange: (v) => f.set("lost_at_from", v),
+          },
+          {
+            name: "lost_at_to",
+            type: "date",
+            label: "até",
+            value: f.values.lost_at_to,
+            onChange: (v) => f.set("lost_at_to", v),
+          },
+          {
+            name: "ordering",
+            label: "Ordenar: mais recentes",
+            value: f.values.ordering,
+            onChange: (v) => f.set("ordering", v),
+            options: occurrenceOrderingOptions,
           },
         ]}
       />
