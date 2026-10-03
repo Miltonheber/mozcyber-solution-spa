@@ -1,4 +1,5 @@
 import api from "@/http/api";
+import { unwrapPage } from "@/http/pagination";
 
 // Endpoints públicos: não exigem login.
 
@@ -9,3 +10,5 @@ export const reportNumber = (payload) => api.post("/public/reports/", payload).t
 
 export const getNumberReputation = (phone) =>
   api.get(`/public/numbers/${encodeURIComponent(phone)}/`).then((r) => r.data);
+
+export const listHallOfFame = (params) => api.get("/public/hall-of-fame/", { params }).then(unwrapPage);
