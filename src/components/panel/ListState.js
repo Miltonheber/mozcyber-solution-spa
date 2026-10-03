@@ -1,18 +1,29 @@
-import { Alert, EmptyState, Spinner } from "@/components/ui";
+import { Alert, Button, EmptyState, Skeleton } from "@/components/ui";
 
-/** Estados comuns de uma listagem: erro, a carregar (1ª vez) e vazio. Devolve `null` se há dados a mostrar. */
-export default function ListState({ data, error, emptyTitle, emptyText, emptyAction }) {
+/**
+ * Estados comuns de uma listagem: erro, a carregar (1ª vez) e vazio. Devolve `null` se há dados a mostrar.
+ * `onRetry` (ex.: o `reload` de `usePagedQuery`) acrescenta o botão "Tentar novamente" ao erro.
+ */
+export default function ListState({ data, error, onRetry, emptyTitle, emptyText, emptyAction }) {
   if (error) {
     return (
       <Alert tone="danger" title="Não foi possível carregar a lista">
-        {error.message}
+        <p>{error.message}</p>
+        {onRetry && (
+          <Button variant="secondary" size="sm" className="mt-3" onClick={onRetry}>
+            Tentar novamente
+          </Button>
+        )}
       </Alert>
     );
   }
   if (!data) {
     return (
-      <div className="py-14 text-center">
-        <Spinner />
+      <div role="status" aria-live="polite" className="space-y-3 rounded-panel border border-line bg-surface p-4">
+        <span className="sr-only">A carregar a lista…</span>
+        {Array.from({ length: 5 }, (_, i) => (
+          <Skeleton key={i} className="h-10" />
+        ))}
       </div>
     );
   }

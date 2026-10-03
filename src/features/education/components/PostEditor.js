@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Alert, Button, EmptyState, Modal, PageHeader, Panel, Spinner } from "@/components/ui";
 import { can } from "@/features/auth/permissions";
 import useAsyncAction from "@/hooks/useAsyncAction";
+import { toast } from "@/store/useToastStore";
 import { getApiError } from "@/shared/httpErrorMessage";
 import { ArrowBack, Delete } from "@/shared/icons";
 import useAuthStore from "@/store/useAuthStore";
@@ -58,7 +59,10 @@ export function EditPost({ id }) {
   }, [id]);
 
   const confirmDelete = async () => {
-    if (await remove.run()) router.replace("/painel/conteudo");
+    if (await remove.run()) {
+      toast("Publicação removida.");
+      router.replace("/painel/conteudo");
+    }
   };
 
   if (result.id !== id) {

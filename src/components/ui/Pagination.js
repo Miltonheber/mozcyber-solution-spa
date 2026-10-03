@@ -8,7 +8,7 @@ export default function Pagination({ page, size, count, onChange }) {
   const from = (page - 1) * size + 1;
   const to = Math.min(count, page * size);
   return (
-    <nav aria-label="Paginação" className="flex items-center justify-between gap-3 pt-4 text-sm">
+    <nav aria-label="Paginação" className="flex flex-wrap items-center justify-between gap-3 pt-4 text-sm">
       <p className="text-muted">
         <span className="font-mono text-ink">
           {from}–{to}

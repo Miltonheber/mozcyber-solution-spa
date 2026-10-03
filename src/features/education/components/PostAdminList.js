@@ -19,7 +19,7 @@ const statusOptions = Object.entries(STATUS_LABELS).map(([value, label]) => ({ v
 export default function PostAdminList() {
   const user = useAuthStore((s) => s.user);
   const f = useListFilters({ status: "", topic: "" });
-  const { data, error, loading } = usePagedQuery(listPosts, f.params);
+  const { data, error, loading, reload } = usePagedQuery(listPosts, f.params);
   const canCreate = can(user, "education:create");
   const filtered = Boolean(f.params.search || f.params.status || f.params.topic);
 
@@ -64,6 +64,7 @@ export default function PostAdminList() {
       <ListState
         data={data}
         error={error}
+        onRetry={reload}
         emptyTitle={filtered ? "Nenhuma publicação encontrada" : "Ainda não há publicações"}
         emptyText={filtered ? "Experimente alterar a pesquisa ou os filtros." : "Crie o primeiro guia de prevenção."}
         emptyAction={

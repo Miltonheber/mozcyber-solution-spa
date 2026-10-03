@@ -57,7 +57,9 @@ export default function NumberLookup({ initialPhone = "" }) {
         )}
 
         {typedValid && !settled && (
-          <div className="h-40 animate-pulse rounded-panel border border-line bg-surface" aria-label="A consultar…" />
+          <div role="status" className="h-40 animate-pulse rounded-panel border border-line bg-surface motion-reduce:animate-none">
+            <span className="sr-only">A consultar…</span>
+          </div>
         )}
 
         {settled && result.data && <ReputationCard reputation={result.data} />}

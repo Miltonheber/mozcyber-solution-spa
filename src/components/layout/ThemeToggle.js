@@ -63,7 +63,7 @@ export default function ThemeToggle() {
           aria-pressed={choice === value}
           onClick={() => setChoice(value)}
           className={cx(
-            "grid size-8 place-items-center rounded-[8px] transition-colors",
+            "grid size-7 place-items-center rounded-[8px] sm:size-8 transition-colors",
             choice === value ? "bg-brand-soft text-brand" : "text-muted hover:text-ink",
             focusRing,
           )}

@@ -7,6 +7,7 @@ import ListState from "@/components/panel/ListState";
 import ListToolbar from "@/components/panel/ListToolbar";
 import { can } from "@/features/auth/permissions";
 import useAsyncAction from "@/hooks/useAsyncAction";
+import { toast } from "@/store/useToastStore";
 import useListFilters from "@/hooks/useListFilters";
 import usePagedQuery from "@/hooks/usePagedQuery";
 import { formatDateTime } from "@/shared/format";
@@ -40,7 +41,10 @@ function ModerationModal({ entry, canUpdate, onClose, onUpdated }) {
 
   const apply = async (status) => {
     const updated = await action.run(status);
-    if (updated) onUpdated(updated);
+    if (updated) {
+      toast("Número actualizado.");
+      onUpdated(updated);
+    }
   };
 
   return (
@@ -136,6 +140,7 @@ export default function BlacklistList() {
       <ListState
         data={data}
         error={error}
+        onRetry={reload}
         emptyTitle={filtered ? "Nenhum número encontrado" : "Ainda não há números registados"}
         emptyText={filtered ? "Experimente alterar a pesquisa ou os filtros." : "Os números analisados ou denunciados aparecem aqui."}
       />

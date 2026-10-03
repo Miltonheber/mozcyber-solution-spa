@@ -17,7 +17,7 @@ import OccurrenceStatusPill from "./OccurrenceStatusPill";
 export default function OccurrenceList() {
   const user = useAuthStore((s) => s.user);
   const f = useListFilters({ status: "", document_type: "" });
-  const { data, error, loading } = usePagedQuery(listOccurrences, f.params);
+  const { data, error, loading, reload } = usePagedQuery(listOccurrences, f.params);
   const canCreate = can(user, "occurrence:create");
   const filtered = Boolean(f.params.search || f.params.status || f.params.document_type);
 
@@ -77,6 +77,7 @@ export default function OccurrenceList() {
       <ListState
         data={data}
         error={error}
+        onRetry={reload}
         emptyTitle={filtered ? "Nenhuma ocorrência encontrada" : "Ainda não há ocorrências"}
         emptyText={filtered ? "Experimente alterar a pesquisa ou os filtros." : "As ocorrências registadas aparecem aqui."}
         emptyAction={

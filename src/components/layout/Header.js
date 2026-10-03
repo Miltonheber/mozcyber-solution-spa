@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "@/components/ui";
 import { cx, focusRing } from "@/lib/utils";
 import { Close, Login, Menu } from "@/shared/icons";
@@ -13,6 +13,13 @@ import Wordmark from "./Wordmark";
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-paper">
@@ -41,34 +48,34 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-1">
-        <ThemeToggle />
-        <Link
-          href="/entrar"
-          title="Entrar"
-          aria-label="Entrar"
-          className={cx(
-            "grid size-10 place-items-center rounded-control text-muted transition-colors hover:bg-brand-soft hover:text-brand",
-            focusRing,
-          )}
-        >
-          <Login size={22} />
-        </Link>
-        <button
-          type="button"
-          className={cx("-mr-2 grid size-11 place-items-center rounded-control md:hidden", focusRing)}
-          aria-expanded={open}
-          aria-controls="menu-movel"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <Close size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-0.5 sm:gap-1">
+          <ThemeToggle />
+          <Link
+            href="/entrar"
+            title="Entrar"
+            aria-label="Entrar"
+            className={cx(
+              "grid size-9 place-items-center rounded-control text-muted transition-colors hover:bg-brand-soft hover:text-brand sm:size-10",
+              focusRing,
+            )}
+          >
+            <Login size={22} />
+          </Link>
+          <button
+            type="button"
+            className={cx("-mr-1 grid size-10 place-items-center rounded-control md:hidden", focusRing)}
+            aria-expanded={open}
+            aria-controls="menu-movel"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <Close size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </Container>
 
       {open && (
-        <nav id="menu-movel" aria-label="Principal" className="border-t border-line bg-paper md:hidden">
+        <nav id="menu-movel" aria-label="Principal" className="border-t border-line bg-paper transition duration-200 starting:-translate-y-1 starting:opacity-0 motion-reduce:transition-none md:hidden">
           <Container className="flex flex-col py-2">
             {NAV.map((item) => (
               <Link

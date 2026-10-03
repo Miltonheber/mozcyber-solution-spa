@@ -7,6 +7,7 @@ import ListState from "@/components/panel/ListState";
 import ListToolbar from "@/components/panel/ListToolbar";
 import { can } from "@/features/auth/permissions";
 import useAsyncAction from "@/hooks/useAsyncAction";
+import { toast } from "@/store/useToastStore";
 import useListFilters from "@/hooks/useListFilters";
 import usePagedQuery from "@/hooks/usePagedQuery";
 import { formatDateTime } from "@/shared/format";
@@ -35,7 +36,10 @@ function ReportModal({ report, canUpdate, onClose, onUpdated }) {
 
   const apply = async (status) => {
     const updated = await action.run(status);
-    if (updated) onUpdated(updated);
+    if (updated) {
+      toast("Denúncia actualizada.");
+      onUpdated(updated);
+    }
   };
 
   return (
@@ -134,6 +138,7 @@ export default function ReportsList() {
       <ListState
         data={data}
         error={error}
+        onRetry={reload}
         emptyTitle={filtered || f.params.status ? "Nenhuma denúncia encontrada" : "Ainda não há denúncias"}
         emptyText={f.params.status === "pending" && !filtered ? "Não há denúncias pendentes. Bom trabalho." : "Experimente alterar a pesquisa ou os filtros."}
       />

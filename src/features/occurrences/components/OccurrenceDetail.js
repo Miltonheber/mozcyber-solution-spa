@@ -6,6 +6,7 @@ import { Alert, Button, EmptyState, Modal, PageHeader, Panel, Spinner } from "@/
 import DetailList from "@/components/panel/DetailList";
 import { can } from "@/features/auth/permissions";
 import useAsyncAction from "@/hooks/useAsyncAction";
+import { toast } from "@/store/useToastStore";
 import { formatDate, formatDateTime } from "@/shared/format";
 import { getApiError } from "@/shared/httpErrorMessage";
 import { ArrowBack, Edit } from "@/shared/icons";
@@ -135,7 +136,7 @@ export default function OccurrenceDetail({ id }) {
       {canUpdate && (
         <div className="mt-5 flex flex-wrap gap-3">
           {(QUICK[o.status] ?? []).map((a) => (
-            <Button key={a.status} variant={a.variant} loading={quick.loading} onClick={() => quick.run(a.status)}>
+            <Button key={a.status} variant={a.variant} loading={quick.loading} onClick={async () => (await quick.run(a.status)) && toast("Estado da ocorrência actualizado.")}>
               {a.label}
             </Button>
           ))}

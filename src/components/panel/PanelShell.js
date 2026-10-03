@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Wordmark from "@/components/layout/Wordmark";
-import { Spinner } from "@/components/ui";
+import { Alert, Spinner, ToastViewport } from "@/components/ui";
 import { can, profilesOf } from "@/features/auth/permissions";
 import { getMe } from "@/features/auth/services/authService";
 import useHydrated from "@/hooks/useHydrated";
@@ -92,6 +92,7 @@ export default function PanelShell({ children }) {
   const setUser = useAuthStore((s) => s.setUser);
   const logout = useAuthStore((s) => s.logout);
   const [open, setOpen] = useState(false);
+  const [refreshFailed, setRefreshFailed] = useState(false);
   const leaving = useRef(false); // logout em curso: não guardar a rota actual em ?next
 
   // Sem sessão -> /entrar (guardando a rota pedida)
@@ -104,12 +105,29 @@ export default function PanelShell({ children }) {
     if (!hydrated || !accessToken) return;
     let cancelled = false;
     getMe()
-      .then((me) => !cancelled && setUser(me))
-      .catch(() => {});
+      .then((me) => {
+        if (cancelled) return;
+        setUser(me);
+        setRefreshFailed(false);
+      })
+      .catch(() => !cancelled && setRefreshFailed(true));
     return () => {
       cancelled = true;
     };
   }, [hydrated, accessToken, setUser]);
+
+  // Menu móvel aberto: Esc fecha e o conteúdo por baixo não faz scroll
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKeyDown);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = overflow;
+    };
+  }, [open]);
 
   if (!hydrated || !accessToken || !user) {
     return (
@@ -147,14 +165,22 @@ export default function PanelShell({ children }) {
       </header>
 
       {open && (
-        <div className="fixed inset-0 top-14 z-20 bg-surface lg:hidden">
+        <div className="fixed inset-0 top-14 z-20 bg-surface transition duration-200 starting:opacity-0 motion-reduce:transition-none lg:hidden">
           <Sidebar user={user} pathname={pathname} onNavigate={() => setOpen(false)} onLogout={onLogout} />
         </div>
       )}
 
       <main id="conteudo" className="min-w-0 px-4 py-8 sm:px-8 lg:py-10">
-        <div className="mx-auto max-w-6xl">{children}</div>
+        <div className="mx-auto max-w-6xl">
+          {refreshFailed && (
+            <Alert tone="warning" title="Não foi possível atualizar a sua sessão" className="mb-6">
+              Algumas permissões podem estar desatualizadas. Recarregue a página para tentar novamente.
+            </Alert>
+          )}
+          {children}
+        </div>
       </main>
+      <ToastViewport />
     </div>
   );
 }

@@ -5,8 +5,8 @@ import { Progress } from "@/shared/icons";
 
 export const buttonStyles = tv({
   base: [
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium",
-    "transition-colors duration-150 select-none",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium max-sm:whitespace-normal max-sm:text-center",
+    "transition duration-150 select-none active:translate-y-px motion-reduce:active:translate-y-0",
     "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50",
     ...focusRing,
   ],
@@ -18,9 +18,9 @@ export const buttonStyles = tv({
       danger: "bg-danger text-white hover:opacity-90",
     },
     size: {
-      sm: "h-9 px-3.5 text-sm",
-      md: "h-11 px-5 text-[0.9375rem]",
-      lg: "h-12 px-6 text-base",
+      sm: "min-h-9 px-3.5 text-sm",
+      md: "min-h-11 py-2 px-5 text-[0.9375rem]",
+      lg: "min-h-12 py-2 px-6 text-base",
     },
     block: { true: "w-full" },
   },
