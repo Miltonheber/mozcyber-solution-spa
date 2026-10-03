@@ -12,7 +12,7 @@ Frontend em Next.js (App Router) + Tailwind CSS v4 + Zustand + Axios.
 ## Correr
 ```bash
 cp .env.example .env
-npm install && npm run dev            # local: http://localhost:8081 (API em http://localhost:8082)
+npm install && npm run dev                      # local
 docker compose -f docker-compose.dev.yml up --build   # dev com hot reload
 docker compose up --build             # produção (NEXT_PUBLIC_API_URL é lido em build)
 ```
